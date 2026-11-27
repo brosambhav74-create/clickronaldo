@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ronaldo Click Challenge</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #080808, #252525);
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    min-height: 100vh;
+    padding: 25px;
+}
+
+h1 {
+    color: gold;
+    margin: 15px;
+    font-size: 35px;
+}
+
+.subtitle {
+    color: #ccc;
+    margin-bottom: 25px;
+}
+
+.game {
+    max-width: 450px;
+    margin: auto;
+    padding: 25px;
+    background: #171717;
+    border: 2px solid gold;
+    border-radius: 20px;
+    box-shadow: 0 0 25px #b88600;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.stat {
+    font-size: 20px;
+}
+
+.stat span {
+    display: block;
+    color: gold;
+    font-size: 30px;
+    margin-top: 8px;
+}
+
+#ronaldo {
+    width: 230px;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 4px solid gold;
+    cursor: pointer;
+    transition: transform 0.08s;
+    user-select: none;
+}
+
+#ronaldo:active {
+    transform: scale(0.92);
+}
+
+button {
+    padding: 13px 35px;
+    background: gold;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 15px;
+}
+
+button:hover {
+    background: orange;
+}
+
+#message {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 20px;
+    min-height: 35px;
+}
+
+.instructions {
+    color: #aaa;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>⚽ RONALDO CLICK CHALLENGE ⚽</h1>
+<p class="subtitle">Can you click Ronaldo 50 times in 10 seconds?</p>
+
+<div class="game">
+
+    <div class="stats">
+        <div class="stat">
+            CLICKS
+            <span id="clicks">0</span>
+        </div>
+
+        <div class="stat">
+            TIME
+            <span id="time">10</span>
+        </div>
+    </div>
+
+    <img
+        id="ronaldo"
+        src="https://commons.wikimedia.org/wiki/Special:FilePath/Cristiano%20Ronaldo%20-%20Ballon%20d%27Or%202014.jpg"
+        alt="Cristiano Ronaldo"
+        draggable="false"
+    >
+
+    <p id="message">Press START to play!</p>
+
+    <button id="startBtn" onclick="startGame()">START GAME</button>
+
+    <p class="instructions">
+        🎯 Goal: 50 clicks<br>
+        ⏰ Time limit: 10 seconds
+    </p>
+
+</div>
+
+<script>
+let clicks = 0;
+let timeLeft = 10;
+let timer;
+let playing = false;
+
+const image = document.getElementById("ronaldo");
+const clickDisplay = document.getElementById("clicks");
+const timeDisplay = document.getElementById("time");
+const message = document.getElementById("message");
+const startBtn = document.getElementById("startBtn");
+
+function startGame() {
+    clearInterval(timer);
+
+    clicks = 0;
+    timeLeft = 10;
+    playing = true;
+
+    clickDisplay.textContent = clicks;
+    timeDisplay.textContent = timeLeft;
+    message.textContent = "🔥 CLICK RONALDO FAST!";
+    startBtn.disabled = true;
+
+    timer = setInterval(() => {
+        timeLeft--;
+        timeDisplay.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            endGame();
+        }
+    }, 1000);
+}
+
+image.addEventListener("click", () => {
+    if (!playing) return;
+
+    clicks++;
+    clickDisplay.textContent = clicks;
+
+    if (clicks >= 50) {
+        playing = false;
+        clearInterval(timer);
+
+        message.textContent = "🏆 YOU WIN! SIUUUU!";
+        startBtn.disabled = false;
+    }
+});
+
+function endGame() {
+    playing = false;
+    clearInterval(timer);
+
+    if (clicks >= 50) {
+        message.textContent = "🏆 YOU WIN! SIUUUU!";
+    } else {
+        message.textContent = "❌ GAME OVER! TRY AGAIN!";
+    }
+
+    startBtn.disabled = false;
+}
+</script>
+
+</body>
+</html>
